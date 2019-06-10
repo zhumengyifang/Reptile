@@ -1,7 +1,13 @@
 package main
 
-import "goReptile/src/main/Reptile"
+import (
+	"goReptile/src/main/Reptile"
+	"time"
+)
 
 func main() {
-	Reptile.GetBlogVisitCount("")
+	for {
+		Reptile.GetBlogVisitCount("")
+		time.Sleep(time.Minute * 30)
+	}
 }
