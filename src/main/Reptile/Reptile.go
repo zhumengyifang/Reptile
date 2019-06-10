@@ -1,6 +1,5 @@
 package Reptile
 
-import "C"
 import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
