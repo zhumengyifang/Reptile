@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+    <url>https://blog.csdn.net/weixin_40165163/article/list/</url>
+    <containUrl>weixin_40165163</containUrl>
+    <!--    单位分钟-->
+    <executionInterval>7</executionInterval>
+</Config>

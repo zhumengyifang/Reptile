@@ -2,25 +2,25 @@ package main
 
 import (
 	"fmt"
+	"goReptile/src/Config"
 	"goReptile/src/main/Reptile"
 	"time"
 )
 
 func main() {
+	config := Config.GetConfig()
+	fmt.Println(config)
 	for {
 		fmt.Println("Start")
-
 		ch := make(chan int)
-		Reptile.GetBlogVisitCount("")
+		Reptile.GetBlogVisitCount(config.URL)
 		go loading(ch)
-		time.Sleep(time.Minute * 15)
+		time.Sleep(time.Minute * time.Duration(config.ExecutionInterval))
 		ch <- 1
 	}
 }
 
 func loading(ch chan int, ) {
-	k := 0
-	n := 0
 	fmt.Print("Loading")
 	go func() {
 		for {
@@ -31,14 +31,7 @@ func loading(ch chan int, ) {
 				return
 			default:
 				time.Sleep(time.Second)
-				if k == 10 {
-					k = 0
-					n += 1
-					fmt.Print(n)
-				} else {
-					fmt.Print(".")
-					k += 1
-				}
+				fmt.Print(".")
 			}
 		}
 	}()

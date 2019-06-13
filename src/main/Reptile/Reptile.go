@@ -3,20 +3,13 @@ package Reptile
 import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
+	"goReptile/src/Config"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
-//目标网址
-const blogUrl = "https://blog.csdn.net/weixin_40165163/article/list/"
-const existUrl = "weixin_40165163"
-
-func GetBlogVisitCount(url string) {
-	if url == "" {
-		url = blogUrl
-	}
-
+func GetBlogVisitCount(url string, ) {
 	//统计总的访问量
 	count := 0
 	//判断是否为最后一页
@@ -24,7 +17,7 @@ func GetBlogVisitCount(url string) {
 	for i := 1; !isLastUrl; i++ {
 		n := 0
 		//循环拼下一页的url
-		url := blogUrl + strconv.Itoa(i) + "?"
+		url := url + strconv.Itoa(i) + "?"
 		fmt.Println("开始爬取：", url)
 		//按页去统计访问量count
 		isLastUrl, n = GetPageBlogCount(url)
@@ -49,7 +42,7 @@ func GetPageBlogCount(url string) (bool, int) {
 	for k, v := range m {
 		//获取详细博客内容中的访问量
 		s, n := GetVisitCount(GetNewDoc(k))
-		fmt.Println("title:", v, "  ", s, "int:", n)
+		fmt.Println("title:", v, "  ", s)
 		count += n
 	}
 	return false, count
@@ -89,7 +82,7 @@ func GetBlog(doc *goquery.Document) (map[string]string, bool) {
 		a := selection.Find("a").First()
 		url, _ := a.Attr("href")
 		title := a.Text()
-		if strings.Contains(url, existUrl) {
+		if strings.Contains(url, Config.GetConfig().ContainUrl) {
 			m[url] = title
 		}
 	})
@@ -98,7 +91,7 @@ func GetBlog(doc *goquery.Document) (map[string]string, bool) {
 
 func GetVisitCount(doc *goquery.Document) (string, int) {
 	visitCount := doc.Find(".read-count").Text()
-	return visitCount, GetCount(visitCount, "：")
+	return visitCount, GetCount(visitCount, " ")
 }
 
 //解析 访问量：123 中的 123
